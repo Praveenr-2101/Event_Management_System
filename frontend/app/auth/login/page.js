@@ -19,7 +19,7 @@ export default function LoginPage() {
     <div className="flex justify-center items-center min-h-screen bg-[var(--background)]">
       <AuthForm type="login" onSubmit={handleLogin}>
         <p>
-          Don't have an account?{" "}
+          {"Don't have an account? "}
           <Link href="/auth/register" className="text-blue-600 dark:text-blue-400 hover:underline">
             Register
           </Link>
