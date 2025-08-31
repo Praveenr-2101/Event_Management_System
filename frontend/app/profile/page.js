@@ -7,10 +7,13 @@ export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState({ firstName: "", lastName: "", email: "" });
   const [error, setError] = useState("");
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(null); 
 
   useEffect(() => {
-    if (!token) {
+    const t = localStorage.getItem("token");
+    setToken(t);
+
+    if (!t) {
       router.push("/auth/login");
       return;
     }
@@ -19,7 +22,7 @@ export default function ProfilePage() {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/user/profile/", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${t}`,
           },
         });
         if (!response.ok) throw new Error("Failed to fetch profile");
@@ -35,7 +38,7 @@ export default function ProfilePage() {
     };
 
     fetchProfile();
-  }, [token, router]);
+  }, [router]);
 
   return (
     <div className="flex min-h-screen">
