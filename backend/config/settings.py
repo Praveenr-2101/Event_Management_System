@@ -87,13 +87,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 import dj_database_url
+from decouple import config
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get(
-            "DATABASE_URL",
-            f"postgres://postgres:123456@localhost:5433/Event_Db"
-        )
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='postgres://postgres:123456@localhost:5432/Event_Db'),
+        conn_max_age=600,
+        ssl_require=config('DB_SSL', default=False, cast=bool)  # Disable SSL locally, enable for Render
     )
 }
 
