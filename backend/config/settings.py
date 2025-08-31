@@ -90,7 +90,11 @@ import dj_database_url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"postgres://{os.getenv('DATABASE_USER','postgres')}:{os.getenv('DATABASE_PASSWORD','123456')}@localhost:{os.getenv('DATABASE_PORT','5433')}/{os.getenv('DATABASE_NAME','Event_Db')}"
+        default=f"postgres://{os.getenv('DATABASE_USER', 'postgres')}:"
+                f"{os.getenv('DATABASE_PASSWORD', '123456')}@"
+                f"{os.getenv('DATABASE_HOST', 'localhost')}:"
+                f"{os.getenv('DATABASE_PORT', '5433')}/"
+                f"{os.getenv('DATABASE_NAME', 'Event_Db')}"
     )
 }
 
