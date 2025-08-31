@@ -90,14 +90,12 @@ import dj_database_url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"postgres://{os.getenv('DATABASE_USER', 'postgres')}:"
-                f"{os.getenv('DATABASE_PASSWORD', '123456')}@"
-                f"{os.getenv('DATABASE_HOST', 'localhost')}:"
-                f"{os.getenv('DATABASE_PORT', '5433')}/"
-                f"{os.getenv('DATABASE_NAME', 'Event_Db')}"
+        default=os.environ.get(
+            "DATABASE_URL",
+            f"postgres://postgres:123456@localhost:5433/Event_Db"
+        )
     )
 }
-
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
