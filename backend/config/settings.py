@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
-from common.logger_config import LOGGING
+# from common.logger_config import LOGGING
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
