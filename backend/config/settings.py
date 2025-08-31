@@ -76,27 +76,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': os.getenv('DATABASE_NAME'),
-#        'USER': os.getenv('DATABASE_USER'),
-#        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-#        'PORT': os.getenv('DATABASE_PORT'),
-#    }
-# }
+DATABASES = {
+   'default': {
+    #    'ENGINE': 'django.db.backends.postgresql',
+    #    'NAME': os.getenv('DATABASE_NAME'),
+    #    'USER': os.getenv('DATABASE_USER'),
+    #    'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+    #    'PORT': os.getenv('DATABASE_PORT'),
+   }
+}
 
 import dj_database_url
 from decouple import config
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgres://postgres:123456@localhost:5432/Event_Db'),
-        conn_max_age=600,
-        ssl_require=config('DB_SSL', default=False, cast=bool)  # Disable SSL locally, enable for Render
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL', default='postgres://postgres:123456@localhost:5432/Event_Db'),
+#         conn_max_age=600,
+#         ssl_require=config('DB_SSL', default=False, cast=bool)  # Disable SSL locally, enable for Render
+#     )
+# }
 
+
+DATABASES['default']=dj_database_url.parse("postgresql://event_db_anwc_user:sePZp8vZWLYUg2Yp5n6b7MyDsAZ86awr@dpg-d2q2ll6r433s73dr6060-a.singapore-postgres.render.com/event_db_anwc")
+    
+    
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
