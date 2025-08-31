@@ -76,15 +76,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': os.getenv('DATABASE_NAME'),
+#        'USER': os.getenv('DATABASE_USER'),
+#        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+#        'PORT': os.getenv('DATABASE_PORT'),
+#    }
+# }
+
+import dj_database_url
+
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': os.getenv('DATABASE_NAME'),
-       'USER': os.getenv('DATABASE_USER'),
-       'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-       'PORT': os.getenv('DATABASE_PORT'),
-   }
+    "default": dj_database_url.config(
+        default=f"postgres://{os.getenv('DATABASE_USER','postgres')}:{os.getenv('DATABASE_PASSWORD','123456')}@localhost:{os.getenv('DATABASE_PORT','5433')}/{os.getenv('DATABASE_NAME','Event_Db')}"
+    )
 }
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
