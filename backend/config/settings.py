@@ -87,7 +87,6 @@ DATABASES = {
 }
 
 import dj_database_url
-from decouple import config
 
 # DATABASES = {
 #     'default': dj_database_url.config(
@@ -97,8 +96,9 @@ from decouple import config
 #     )
 # }
 
+database_url =os.getenv("DATABASE_URL")
 
-DATABASES['default']=dj_database_url.parse("postgresql://event_db_anwc_user:sePZp8vZWLYUg2Yp5n6b7MyDsAZ86awr@dpg-d2q2ll6r433s73dr6060-a.singapore-postgres.render.com/event_db_anwc")
+DATABASES['default']=dj_database_url.parse(database_url)
     
     
 REST_FRAMEWORK = {
