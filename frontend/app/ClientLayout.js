@@ -47,9 +47,10 @@ export default function ClientLayout({ children }) {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar onToggleSidebar={setIsSidebarOpen} isSidebarOpen={isSidebarOpen} />
-      <div className="flex flex-1 min-h-screen">
+
+      <div className="flex flex-1 relative">
         {isAuth && (
           <Sidebar
             isOpen={isSidebarOpen}
@@ -57,15 +58,15 @@ export default function ClientLayout({ children }) {
             onLogout={handleLogout}
           />
         )}
-        <main
-          className={`flex-1 p-6 sm:p-8 lg:p-10 mx-auto max-w-7xl transition-all duration-300 ${
-            isAuth ? "ml-0 lg:ml-4" : "w-full"
-          }`}
-        >
-          {children}
-        </main>
+      <main
+        className={`flex-1 p-6 sm:p-8 lg:p-10 transition-all duration-300 ${
+        isAuth && isSidebarOpen ? "lg:ml-64" : "ml-0"
+        }`}>
+        {children}
+      </main>
       </div>
+
       <Footer />
-    </>
+    </div>
   );
 }

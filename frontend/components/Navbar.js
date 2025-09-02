@@ -76,12 +76,6 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
             >
               Login
             </Link>
-            <Link
-              href="/auth/register"
-              className="bg-white text-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 hover:text-teal-700 transition-all duration-200 shadow-md"
-            >
-              Register
-            </Link>
           </>
         )}
       </div>

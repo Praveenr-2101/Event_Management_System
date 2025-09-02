@@ -59,7 +59,7 @@ export default function EditEventPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-3xl mx-auto">
-        {/* Header Section */}
+        
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 gap-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
             Update Info
@@ -86,7 +86,6 @@ export default function EditEventPage() {
           </Link>
         </div>
 
-        {/* Form Section */}
         <EventForm initialData={event} onSubmit={handleUpdate} />
       </div>
     </div>

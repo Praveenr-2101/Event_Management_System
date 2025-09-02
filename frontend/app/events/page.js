@@ -97,7 +97,6 @@ export default function EventsPage() {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto">
         
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 gap-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
             All Events
@@ -118,7 +117,7 @@ export default function EventsPage() {
           </Link>
         </div>
 
-        {/* Search Bar */}
+
         <div className="mb-8">
           <div className="relative">
             <input
@@ -142,7 +141,7 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Events Grid */}
+
         {Array.isArray(events) && events.length === 0 ? (
           <div className="bg-white dark:bg-gray-900/80 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl p-6 sm:p-8 text-center">
             <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -161,7 +160,6 @@ export default function EventsPage() {
               ))}
             </div>
 
-            {/* Pagination Controls */}
             <div className="flex justify-center gap-4 mt-8">
               {previous && (
                 <button

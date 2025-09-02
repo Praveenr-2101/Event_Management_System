@@ -7,21 +7,16 @@ export const login = ({ access, refresh }) => {
 };
 
 
-
 export const logout = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) throw new Error("No refresh token found");
-
-    await api.post("/auth/logout/", { refresh: refreshToken }, {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    });
+    if (refreshToken) {
+      await api.post("/auth/logout/", { refresh: refreshToken });
+    }
   } catch (error) {
-    console.log("Logout failed:", error.response?.data || error.message);
+    console.error("Logout API failed:", error.response?.data || error.message);
   } finally {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     window.dispatchEvent(new Event("storage"));
     window.location.href = "/auth/login";

@@ -16,7 +16,6 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Overview Card */}
         <div className="bg-white dark:bg-gray-900/80 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl p-6 sm:p-8 mb-6 transition-all duration-200 hover:shadow-2xl">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
             Welcome to Your Event Management Hub

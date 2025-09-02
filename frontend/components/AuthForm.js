@@ -3,8 +3,8 @@
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 
-export default function AuthForm({ type = "login", onSubmit, children }) {
-  const [form, setForm] = useState({ email: "", password: "", confirm: "" });
+export default function AuthForm({ onSubmit, children }) {
+  const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -13,11 +13,6 @@ export default function AuthForm({ type = "login", onSubmit, children }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (type === "register" && form.password !== form.confirm) {
-      setError("Passwords do not match");
-      return;
-    }
-
     try {
       await onSubmit(form);
       setError("");
@@ -32,8 +27,8 @@ export default function AuthForm({ type = "login", onSubmit, children }) {
         onSubmit={handleSubmit}
         className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 sm:p-8 w-full"
       >
-        <h1 className="text-xl sm:text-2xl font-bold mb-6 capitalize text-gray-900 dark:text-gray-100">
-          {type}
+        <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+          Login
         </h1>
         <ErrorMessage message={error} />
 
@@ -66,31 +61,16 @@ export default function AuthForm({ type = "login", onSubmit, children }) {
               required
             />
           </div>
-          {type === "register" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirm"
-                placeholder="Confirm Password"
-                value={form.confirm}
-                onChange={handleChange}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 dark:placeholder-gray-400"
-                required
-              />
-            </div>
-          )}
         </div>
 
         <button
           type="submit"
           className="mt-6 w-full bg-blue-600 dark:bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
         >
-          {type === "login" ? "Login" : "Register"}
+          Login
         </button>
       </form>
+
       {children && (
         <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
           {children}
