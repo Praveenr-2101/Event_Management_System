@@ -4,14 +4,14 @@ import api from "./api";
 export const login = ({ access, refresh }) => {
   localStorage.setItem("token", access);
   localStorage.setItem("refreshToken", refresh);
+  window.dispatchEvent(new Event("authChange"));
 };
-
 
 export const logout = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) {
-      await api.post("/auth/logout/", { refresh: refreshToken });
+      await api.post("/user/logout/", { refresh: refreshToken });
     }
   } catch (error) {
     console.error("Logout API failed:", error.response?.data || error.message);
@@ -23,7 +23,6 @@ export const logout = async () => {
   }
 };
 
-
 export const isAuthenticated = () => {
   if (typeof window === "undefined") return false;
 
@@ -33,7 +32,7 @@ export const isAuthenticated = () => {
   try {
     const [, payload] = token.split(".");
     const decoded = JSON.parse(atob(payload));
-    return decoded.exp * 1000 > Date.now(); 
+    return decoded.exp * 1000 > Date.now();
   } catch {
     return false;
   }

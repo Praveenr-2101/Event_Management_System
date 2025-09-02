@@ -11,11 +11,14 @@ export default function LoginPage() {
     try {
       const res = await api.post("/user/login/", { email, password });
 
-      localStorage.setItem("accessToken", res.data.access);
+      // ✅ store with consistent keys
+      localStorage.setItem("token", res.data.access);
       localStorage.setItem("refreshToken", res.data.refresh);
 
+      // let other tabs/components know auth changed
+      window.dispatchEvent(new Event("authChange"));
+
       router.push("/dashboard");
-      
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
       throw new Error("Authentication failed");
