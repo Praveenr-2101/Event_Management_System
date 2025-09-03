@@ -125,3 +125,17 @@ poetry run python manage.py runserver
 npm run dev     
 npm run build   
 npm run start  
+
+
+**Security Note**
+
+In this project, I have stored the JWT access and refresh tokens in **localStorage**.  
+This approach was chosen for simplicity and faster implementation within the limited time frame of the assignment.  
+
+In a production-grade system, a more secure approach should be used:  
+- Store refresh tokens in **HttpOnly cookies** (not accessible by JavaScript).  
+- Store access tokens in memory or short-lived cookies.  
+- Implement CSRF protection.  
+
+This ensures better protection against XSS and token theft.  
+For the purpose of this assignment, localStorage is acceptable as it allows easier handling of authentication state in the frontend.
