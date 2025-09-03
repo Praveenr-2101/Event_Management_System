@@ -23,7 +23,6 @@ const normalizeUrl = (url) => {
 };
 
 export default function EventsPage() {
-
   const router = useRouter();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,10 +64,6 @@ export default function EventsPage() {
   };
 
   useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  useEffect(() => {
     const delayDebounce = setTimeout(() => {
       fetchEvents("/events/", search.trim() ? { title: search } : {});
     }, 500);
@@ -95,7 +90,12 @@ export default function EventsPage() {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4"
+              />
             </svg>
             Create Event
           </Link>
@@ -118,8 +118,12 @@ export default function EventsPage() {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"
+              />
             </svg>
           </div>
         </div>
@@ -128,7 +132,10 @@ export default function EventsPage() {
           <div className="bg-white dark:bg-gray-900/80 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl p-6 sm:p-8 text-center">
             <p className="text-gray-600 dark:text-gray-300 text-lg">
               No events found. Start by{" "}
-              <Link href="/events/new" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+              <Link
+                href="/events/new"
+                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+              >
                 creating an event
               </Link>
               .
