@@ -5,15 +5,17 @@ import Link from "next/link";
 import api from "@/lib/api";
 import EventCard from "@/components/EventCard";
 import Loader from "@/components/Loader";
+import { isAuthenticated } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 const normalizeUrl = (url) => {
   if (!url) return null;
-  
+
   if (url.startsWith("http")) {
     const u = new URL(url);
     url = u.pathname + u.search;
   }
-  
+
   if (url.startsWith("/api/")) {
     url = url.replace("/api", "");
   }
@@ -21,18 +23,25 @@ const normalizeUrl = (url) => {
 };
 
 export default function EventsPage() {
-  const [events, setEvents] = useState([]); 
+
+  const router = useRouter();
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [next, setNext] = useState(null);
   const [previous, setPrevious] = useState(null);
 
- 
-  const fetchEvents = async (url = "/events/search/") => {
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/auth/login");
+      return;
+    }
+  }, [router]);
+
+  const fetchEvents = async (url = "/events/", params = {}) => {
     try {
       setLoading(true);
-
-      const res = await api.get(normalizeUrl(url));
+      const res = await api.get(normalizeUrl(url), { params });
 
       setEvents(res.data?.results ?? []);
       setNext(normalizeUrl(res.data?.next));
@@ -45,24 +54,6 @@ export default function EventsPage() {
     }
   };
 
-  
-  const fetchSearchedEvents = async (title) => {
-    try {
-      setLoading(true);
-      const res = await api.get("/events/search/", { params: { title } });
-
-      setEvents(res.data?.results ?? []);
-      setNext(normalizeUrl(res.data?.next));
-      setPrevious(normalizeUrl(res.data?.previous));
-    } catch (err) {
-      console.error("Error fetching searched events:", err);
-      setEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this event?")) return;
     try {
@@ -73,19 +64,13 @@ export default function EventsPage() {
     }
   };
 
-  
   useEffect(() => {
     fetchEvents();
   }, []);
 
   useEffect(() => {
-    if (search.trim() === "") {
-      fetchEvents();
-      return;
-    }
-
     const delayDebounce = setTimeout(() => {
-      fetchSearchedEvents(search);
+      fetchEvents("/events/", search.trim() ? { title: search } : {});
     }, 500);
 
     return () => clearTimeout(delayDebounce);
@@ -96,7 +81,6 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-5xl mx-auto">
-        
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 gap-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
             All Events
@@ -116,7 +100,6 @@ export default function EventsPage() {
             Create Event
           </Link>
         </div>
-
 
         <div className="mb-8">
           <div className="relative">
@@ -141,8 +124,7 @@ export default function EventsPage() {
           </div>
         </div>
 
-
-        {Array.isArray(events) && events.length === 0 ? (
+        {events.length === 0 ? (
           <div className="bg-white dark:bg-gray-900/80 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl p-6 sm:p-8 text-center">
             <p className="text-gray-600 dark:text-gray-300 text-lg">
               No events found. Start by{" "}

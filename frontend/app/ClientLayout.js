@@ -12,19 +12,19 @@ const Sidebar = dynamic(() => import("@/components/Sidebar"), { ssr: false });
 export default function ClientLayout({ children }) {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(null); 
 
   useEffect(() => {
-    setIsAuth(isAuthenticated());
-
-    const authCheckInterval = setInterval(() => {
-      const authStatus = isAuthenticated();
+    const checkAuth = async () => {
+      const authStatus = await isAuthenticated();
       setIsAuth(authStatus);
       if (!authStatus) setIsSidebarOpen(false);
-    }, 100);
+    };
 
-    const handleStorageChange = () => {
-      const authStatus = isAuthenticated();
+    checkAuth();
+
+    const handleStorageChange = async () => {
+      const authStatus = await isAuthenticated();
       setIsAuth(authStatus);
       if (!authStatus) setIsSidebarOpen(false);
     };
@@ -35,7 +35,6 @@ export default function ClientLayout({ children }) {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("authChange", handleStorageChange);
-      clearInterval(authCheckInterval);
     };
   }, [isSidebarOpen]);
 
@@ -49,23 +48,22 @@ export default function ClientLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar onToggleSidebar={setIsSidebarOpen} isSidebarOpen={isSidebarOpen} />
-
       <div className="flex flex-1 relative">
-        {isAuth && (
+        {isAuth === true && (
           <Sidebar
             isOpen={isSidebarOpen}
             onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
             onLogout={handleLogout}
           />
         )}
-      <main
-        className={`flex-1 p-6 sm:p-8 lg:p-10 transition-all duration-300 ${
-        isAuth && isSidebarOpen ? "lg:ml-64" : "ml-0"
-        }`}>
-        {children}
-      </main>
+        <main
+          className={`flex-1 p-6 sm:p-8 lg:p-10 transition-all duration-300 ${
+            isAuth && isSidebarOpen ? "lg:ml-64" : "ml-0"
+          }`}
+        >
+          {children}
+        </main>
       </div>
-
       <Footer />
     </div>
   );

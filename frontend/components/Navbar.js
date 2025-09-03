@@ -7,20 +7,20 @@ import { isAuthenticated } from "@/lib/auth";
 
 export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState(null);
+  const [isAuth, setIsAuth] = useState(null); 
 
   useEffect(() => {
-    
-    setIsAuth(isAuthenticated());
-
-    const handleAuthChange = () => {
-      setIsAuth(isAuthenticated());
+    const checkAuth = async () => {
+      const authStatus = await isAuthenticated();
+      setIsAuth(authStatus);
     };
 
-    const authCheckInterval = setInterval(() => {
-      setIsAuth(isAuthenticated());
-    }, 500); 
+    checkAuth();
 
+    const handleAuthChange = async () => {
+      const authStatus = await isAuthenticated();
+      setIsAuth(authStatus);
+    };
 
     window.addEventListener("storage", handleAuthChange);
     window.addEventListener("authChange", handleAuthChange);
@@ -28,7 +28,6 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
     return () => {
       window.removeEventListener("storage", handleAuthChange);
       window.removeEventListener("authChange", handleAuthChange);
-      clearInterval(authCheckInterval);
     };
   }, []);
 
@@ -68,16 +67,14 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen }) {
         </Link>
       </div>
       <div className="flex items-center gap-3">
-        {!isAuth && (
-          <>
-            <Link
-              href="/auth/login"
-              className="bg-white text-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 hover:text-teal-700 transition-all duration-200 shadow-md"
-            >
-              Login
-            </Link>
-          </>
-        )}
+        {isAuth === null ? null : !isAuth ? (
+          <Link
+            href="/auth/login"
+            className="bg-white text-teal-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 hover:text-teal-700 transition-all duration-200 shadow-md"
+          >
+            Login
+          </Link>
+        ) : null}
       </div>
     </nav>
   );

@@ -10,7 +10,7 @@ urlpatterns = [
     
     path('user/',include('usermgmt.urls')),
     path('',include('events.urls')),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),   # login via JWT
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"), # refresh expired token
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"), 
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"), 
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"), 
 ]

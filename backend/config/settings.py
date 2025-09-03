@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
-# from common.logger_config import LOGGING
+from common.logger_config import LOGGING
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
@@ -146,8 +146,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),  
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=2),  
     'ROTATE_REFRESH_TOKENS': False,           
     'BLACKLIST_AFTER_ROTATION': True,            
 }

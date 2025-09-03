@@ -4,13 +4,22 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import EventForm from "@/components/EventForm";
 import api from "@/lib/api";
+import { isAuthenticated } from "@/lib/auth";
+import { useEffect } from "react";
+
 
 export default function NewEventPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/auth/login");
+    }
+  }, [router]);
+
   const handleCreate = async (form) => {
     try {
-      await api.post("/events/", form);
+      await api.post("/event/", form);
       router.push("/events");
     } catch (error) {
       console.error("Error creating event:", error);

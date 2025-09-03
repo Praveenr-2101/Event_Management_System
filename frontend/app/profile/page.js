@@ -3,16 +3,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import { isAuthenticated } from "@/lib/auth"
 
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState({ firstName: "", lastName: "", email: "" });
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
 
-    if (!token) {
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
       router.push("/auth/login");
       return;
     }

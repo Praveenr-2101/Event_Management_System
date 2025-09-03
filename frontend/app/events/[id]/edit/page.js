@@ -6,12 +6,22 @@ import Link from "next/link";
 import EventForm from "@/components/EventForm";
 import api from "@/lib/api";
 import Loader from "@/components/Loader";
+import { isAuthenticated } from "@/lib/auth"; 
+
 
 export default function EditEventPage() {
   const { id } = useParams();
   const router = useRouter();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/auth/login");
+      return;
+    }
+  }, [router]);
+  
 
   useEffect(() => {
     const fetchEvent = async () => {
